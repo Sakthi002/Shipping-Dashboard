@@ -19,7 +19,7 @@
 
       <div class="col-sm-12">
 
-        <div class="col-md-6">
+        <div class="col-md-5">
         
           <div class="box box-primary">
         
@@ -61,11 +61,71 @@
           </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-7">
           
           <div class="box box-primary">
         
             <div class="box-body">
+
+              <template v-if="loading">
+                  
+                <h4 class="text-center">Loding Data...</h4>
+              </template>
+
+              <template v-if="!loading && tableDetails.length === 0">
+                  
+                <h4 class="text-center">No Data.</h4>
+              </template>
+
+              <div style="overflow : auto;max-height:500px">
+                <table class="table table-striped"  v-if="!loading && tableDetails.length > 0">
+                 
+                  <thead>
+                 
+                    <tr>
+                 
+                      <th>AWB NUMBER</th>
+                 
+                      <th>TRANSPORTER</th>
+                 
+                      <th>SOURCE</th>
+
+                      <th>DESTINATION</th>
+                      
+                      <th>BRAND</th>
+                      
+                      <th>START DATE</th>
+                      
+                      <th>ETD</th>
+                      
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                 
+                  <tbody>
+                 
+                    <tr v-for="row in tableData">
+                 
+                      <td id="row_data">{{row.awbno}}</td>
+                 
+                      <td id="row_data">{{row.carrier}}</td>
+                 
+                      <td id="row_data">{{row.from}}</td>
+
+                      <td id="row_data">{{row.to}}</td>
+
+                      <td id="row_data">{{row.brand ? row.brand : '--'}}</td>
+
+                      <td id="row_data">{{row.pickup_date}}</td>
+
+                      <td id="row_data">{{row.extra_fields ? row.extra_fields.expected_delivery_date : '--'}}</td>
+
+                      <td id="row_data">{{row.current_status}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -109,7 +169,7 @@
 
         timelineData : [],
 
-        tableData : '',
+        tableData : [],
 
         loading : false
       }
@@ -120,6 +180,11 @@
       timelineDetails() {
 
         return this.timelineData;
+      },
+
+      tableDetails() {
+
+        return this.tableData;
       }
     },
 
@@ -216,9 +281,7 @@
           this.timelineData = this.timelineData.concat(arrays[i]);
         }
 
-        // this.tableData = obj.data ? obj.data : [];
-
-        // console.log(this.tableData,'table')
+        this.tableData =  obj;
       }
     } 
   };
@@ -233,7 +296,16 @@
 
   .custom_timeline {
 
-    height: 500px;
+    max-height: 500px;
     overflow-x: auto;
+  }
+
+  .timeline-header{
+
+    font-size: 12px !important;
+  }
+
+  #row_data{
+    max-width: 250px !important;
   }
 </style>

@@ -2,9 +2,11 @@ import 'es6-promise/auto'
 
 import Vue from 'vue'
 
-import VueRouter from 'vue-router'
+window.axios = require('axios');
 
-import { sync } from 'vuex-router-sync'
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+import VueRouter from 'vue-router'
 
 import routes from './routes'
 
